@@ -1904,7 +1904,7 @@ Orders management showing:
 
 ## 🧪 Testing the API
 
-### Using cURL
+### Using CURL
 
 #### Local Development
 
@@ -2036,6 +2036,26 @@ These GET endpoints can be tested directly in your browser:
 | **Top Sellers** | [localhost:5000/api/orders/analytics/top-sellers](http://localhost:5000/api/orders/analytics/top-sellers) | [Production Top Sellers](https://restaurant-api-g6ln.onrender.com/api/orders/analytics/top-sellers) |
 
 ---
+## 📸 Screenshots - POSTMAN 
+
+> Here are some  examples of API calls using POSTMAN
+
+### Server Health Check
+![Server Status](./screenshots/server-status.png)
+
+### Get All Menu Items
+![Get Menu](./screenshots/get-menu.png)
+
+### Get All Orders
+![Get Orders](./screenshots/get-orders.png)
+
+### Create Menu Item
+![Create Menu](./screenshots/post-menu.png)
+
+### Delete Menu Item
+![Delete Menu](./screenshots/delete-menu.png)
+
+
 
 ## 🐛 Troubleshooting
 
