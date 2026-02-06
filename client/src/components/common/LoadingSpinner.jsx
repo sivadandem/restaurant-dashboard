@@ -6,10 +6,13 @@ const LoadingSpinner = ({ size = 'md' }) => {
   };
 
   return (
-    <div className="flex items-center justify-center p-8">
+    <div className="flex flex-col items-center justify-center p-8">
       <div
         className={`${sizeClasses[size]} border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin`}
+        
       />
+      <br/>
+      <h3 className="">Fetching Data</h3>
     </div>
   );
 };
