@@ -1,15 +1,24 @@
 const mongoose = require('mongoose');
-const dotenv = require('dotenv');
+const path = require('path');
+
+// ✅ load .env from server folder
+require('dotenv').config({
+  path: path.resolve(__dirname, '../.env'),
+});
+
 const MenuItem = require('../models/MenuItem');
 const Order = require('../models/Order');
 
-dotenv.config();
+
+// =====================================================
+// FULL MENU ITEMS
+// =====================================================
 
 const menuItems = [
-  // Appetizers (Starters)
+  // ================= Appetizers =================
   {
     name: 'Paneer Tikka',
-    description: 'Marinated cottage cheese cubes grilled to perfection with spices and served with mint chutney',
+    description: 'Marinated cottage cheese cubes grilled to perfection with spices and mint chutney',
     category: 'Appetizer',
     price: 280,
     ingredients: ['Paneer', 'Yogurt', 'Spices', 'Bell Peppers', 'Onions'],
@@ -29,294 +38,186 @@ const menuItems = [
   },
   {
     name: 'Samosa',
-    description: 'Crispy fried pastry filled with spiced potatoes and peas, served with tamarind chutney',
+    description: 'Crispy fried pastry filled with spiced potatoes and peas',
     category: 'Appetizer',
     price: 80,
-    ingredients: ['Potatoes', 'Peas', 'Flour', 'Cumin', 'Coriander'],
+    ingredients: ['Potatoes', 'Peas', 'Flour'],
     isAvailable: true,
     preparationTime: 15,
     imageUrl: 'https://images.unsplash.com/photo-1601050690597-df0568f70950?w=400',
   },
   {
     name: 'Veg Spring Rolls',
-    description: 'Crispy rolls stuffed with mixed vegetables and served with schezwan sauce',
+    description: 'Crispy rolls stuffed with vegetables served with schezwan sauce',
     category: 'Appetizer',
     price: 180,
-    ingredients: ['Cabbage', 'Carrots', 'Spring Onions', 'Noodles', 'Wrapper'],
+    ingredients: ['Cabbage', 'Carrots', 'Spring Onions', 'Wrapper'],
     isAvailable: true,
     preparationTime: 15,
     imageUrl: 'https://images.unsplash.com/photo-1544025162-d76694265947?w=400',
   },
 
-  // Main Course
+  // ================= Main Course =================
   {
     name: 'Butter Chicken',
-    description: 'Tender chicken cooked in rich creamy tomato gravy with butter and aromatic spices',
+    description: 'Tender chicken cooked in rich creamy tomato gravy',
     category: 'Main Course',
     price: 350,
-    ingredients: ['Chicken', 'Tomatoes', 'Butter', 'Cream', 'Kasuri Methi'],
+    ingredients: ['Chicken', 'Tomatoes', 'Butter', 'Cream'],
     isAvailable: true,
     preparationTime: 30,
     imageUrl: 'https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?w=400',
   },
   {
     name: 'Chicken Biryani',
-    description: 'Fragrant basmati rice layered with spiced chicken, saffron, and fried onions',
+    description: 'Fragrant basmati rice layered with spiced chicken',
     category: 'Main Course',
     price: 320,
-    ingredients: ['Basmati Rice', 'Chicken', 'Saffron', 'Yogurt', 'Biryani Masala'],
+    ingredients: ['Rice', 'Chicken', 'Spices'],
     isAvailable: true,
     preparationTime: 45,
     imageUrl: 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=400',
   },
   {
     name: 'Paneer Butter Masala',
-    description: 'Soft paneer cubes in rich, creamy tomato-based gravy with Indian spices',
+    description: 'Soft paneer cubes in creamy tomato gravy',
     category: 'Main Course',
     price: 280,
-    ingredients: ['Paneer', 'Tomatoes', 'Butter', 'Cream', 'Cashews'],
+    ingredients: ['Paneer', 'Tomatoes', 'Butter', 'Cream'],
     isAvailable: true,
     preparationTime: 25,
     imageUrl: 'https://images.unsplash.com/photo-1631452180519-c014fe946bc7?w=400',
   },
   {
     name: 'Dal Makhani',
-    description: 'Slow-cooked black lentils in creamy butter sauce, a Punjabi specialty',
+    description: 'Slow-cooked black lentils in buttery creamy sauce',
     category: 'Main Course',
     price: 220,
-    ingredients: ['Black Lentils', 'Kidney Beans', 'Butter', 'Cream', 'Tomatoes'],
+    ingredients: ['Black Lentils', 'Kidney Beans', 'Butter'],
     isAvailable: true,
     preparationTime: 35,
     imageUrl: 'https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=400',
   },
   {
     name: 'Masala Dosa',
-    description: 'Crispy rice crepe filled with spiced potato masala, served with sambar and chutneys',
+    description: 'Crispy rice crepe filled with potato masala',
     category: 'Main Course',
     price: 150,
-    ingredients: ['Rice Batter', 'Potatoes', 'Onions', 'Mustard Seeds', 'Curry Leaves'],
+    ingredients: ['Rice Batter', 'Potatoes'],
     isAvailable: true,
     preparationTime: 20,
     imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/8/8f/Rameshwaram_Cafe_Dosa.jpg',
   },
   {
     name: 'Chole Bhature',
-    description: 'Spicy chickpea curry served with fluffy deep-fried bread',
+    description: 'Spicy chickpea curry served with fried bread',
     category: 'Main Course',
     price: 180,
-    ingredients: ['Chickpeas', 'Onions', 'Tomatoes', 'Flour', 'Chole Masala'],
+    ingredients: ['Chickpeas', 'Flour'],
     isAvailable: false,
     preparationTime: 25,
     imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRyta2FEc05FPDkoHtzey9a8nmlgumGb7lDew&s',
   },
 
-  // Desserts
+  // ================= Desserts =================
   {
     name: 'Gulab Jamun',
-    description: 'Soft milk solid dumplings soaked in rose-flavored sugar syrup',
+    description: 'Soft dumplings soaked in sugar syrup',
     category: 'Dessert',
     price: 120,
-    ingredients: ['Khoya', 'Flour', 'Sugar', 'Rose Water', 'Cardamom'],
+    ingredients: ['Khoya', 'Sugar'],
     isAvailable: true,
     preparationTime: 10,
     imageUrl: 'https://static.toiimg.com/thumb/63799510.cms?imgsize=1091643&width=800&height=800',
   },
   {
     name: 'Rasmalai',
-    description: 'Soft cottage cheese patties soaked in sweetened, thickened milk with saffron',
+    description: 'Cottage cheese patties soaked in sweetened milk',
     category: 'Dessert',
     price: 150,
-    ingredients: ['Paneer', 'Milk', 'Sugar', 'Saffron', 'Cardamom'],
+    ingredients: ['Paneer', 'Milk', 'Sugar'],
     isAvailable: true,
     preparationTime: 10,
     imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQKRN8_L8bzbrsJNA3ksQpgMMD8ynTG6aUnQ&s',
   },
   {
     name: 'Gajar Ka Halwa',
-    description: 'Traditional carrot pudding cooked with milk, ghee, and topped with dry fruits',
+    description: 'Traditional carrot pudding with dry fruits',
     category: 'Dessert',
     price: 140,
-    ingredients: ['Carrots', 'Milk', 'Ghee', 'Sugar', 'Almonds', 'Cashews'],
+    ingredients: ['Carrots', 'Milk', 'Sugar'],
     isAvailable: true,
     preparationTime: 15,
     imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdnhw0csQkb9wbxS2RSX_HXyrLloLm12QM0g&s',
   },
 
-  // Beverages
+  // ================= Beverages =================
   {
     name: 'Mango Lassi',
-    description: 'Refreshing yogurt-based drink blended with sweet mango pulp',
+    description: 'Sweet mango yogurt drink',
     category: 'Beverage',
     price: 100,
-    ingredients: ['Yogurt', 'Mango Pulp', 'Sugar', 'Cardamom'],
+    ingredients: ['Yogurt', 'Mango'],
     isAvailable: true,
     preparationTime: 5,
     imageUrl: 'https://images.unsplash.com/photo-1626200419199-391ae4be7a41?w=400',
   },
   {
     name: 'Masala Chai',
-    description: 'Traditional Indian spiced tea brewed with milk and aromatic spices',
+    description: 'Indian spiced tea with milk',
     category: 'Beverage',
     price: 50,
-    ingredients: ['Tea Leaves', 'Milk', 'Ginger', 'Cardamom', 'Cinnamon'],
+    ingredients: ['Tea', 'Milk', 'Spices'],
     isAvailable: true,
     preparationTime: 5,
     imageUrl: 'https://images.unsplash.com/photo-1597318181409-cf64d0b5d8a2?w=400',
   },
   {
     name: 'Sweet Lassi',
-    description: 'Creamy yogurt drink sweetened with sugar and flavored with cardamom',
+    description: 'Creamy sweet yogurt drink',
     category: 'Beverage',
     price: 80,
-    ingredients: ['Yogurt', 'Sugar', 'Cardamom', 'Ice'],
+    ingredients: ['Yogurt', 'Sugar'],
     isAvailable: true,
     preparationTime: 5,
     imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDJl5giiE26PIj2AiDVRiVzwuqVuXVJX7MHg&s',
   },
   {
     name: 'Fresh Lime Soda',
-    description: 'Refreshing lime juice mixed with soda, available sweet or salted',
+    description: 'Refreshing lime soda',
     category: 'Beverage',
     price: 60,
-    ingredients: ['Lime', 'Soda', 'Sugar', 'Salt', 'Mint'],
+    ingredients: ['Lime', 'Soda'],
     isAvailable: true,
     preparationTime: 3,
     imageUrl: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=400',
   },
 ];
 
+
+// =====================================================
+// SEED FUNCTION
+// =====================================================
+
 const seedDatabase = async () => {
   try {
     await mongoose.connect(process.env.MONGODB_URI);
-    console.log('Connected to MongoDB');
+    console.log('✅ Connected to MongoDB');
 
-    // Clear existing data
     await MenuItem.deleteMany({});
     await Order.deleteMany({});
-    console.log('Cleared existing data');
+    console.log('🗑 Old data cleared');
 
-    // Insert menu items
     const createdMenuItems = await MenuItem.insertMany(menuItems);
-    console.log(`Inserted ${createdMenuItems.length} menu items`);
+    console.log(`✅ ${createdMenuItems.length} menu items inserted`);
 
-    // Create sample orders with Indian names
-    const sampleOrders = [
-      {
-        items: [
-          { menuItem: createdMenuItems[0]._id, quantity: 2, price: createdMenuItems[0].price },
-          { menuItem: createdMenuItems[4]._id, quantity: 1, price: createdMenuItems[4].price },
-        ],
-        totalAmount: createdMenuItems[0].price * 2 + createdMenuItems[4].price,
-        customerName: 'Rahul Sharma',
-        tableNumber: 5,
-        status: 'Delivered',
-      },
-      {
-        items: [
-          { menuItem: createdMenuItems[5]._id, quantity: 2, price: createdMenuItems[5].price },
-          { menuItem: createdMenuItems[10]._id, quantity: 2, price: createdMenuItems[10].price },
-        ],
-        totalAmount: createdMenuItems[5].price * 2 + createdMenuItems[10].price * 2,
-        customerName: 'Priya Patel',
-        tableNumber: 3,
-        status: 'Preparing',
-      },
-      {
-        items: [
-          { menuItem: createdMenuItems[6]._id, quantity: 3, price: createdMenuItems[6].price },
-        ],
-        totalAmount: createdMenuItems[6].price * 3,
-        customerName: 'Amit Kumar',
-        tableNumber: 8,
-        status: 'Pending',
-      },
-      {
-        items: [
-          { menuItem: createdMenuItems[1]._id, quantity: 1, price: createdMenuItems[1].price },
-          { menuItem: createdMenuItems[7]._id, quantity: 1, price: createdMenuItems[7].price },
-          { menuItem: createdMenuItems[13]._id, quantity: 2, price: createdMenuItems[13].price },
-        ],
-        totalAmount: createdMenuItems[1].price + createdMenuItems[7].price + createdMenuItems[13].price * 2,
-        customerName: 'Sneha Reddy',
-        tableNumber: 12,
-        status: 'Ready',
-      },
-      {
-        items: [
-          { menuItem: createdMenuItems[2]._id, quantity: 4, price: createdMenuItems[2].price },
-          { menuItem: createdMenuItems[4]._id, quantity: 2, price: createdMenuItems[4].price },
-        ],
-        totalAmount: createdMenuItems[2].price * 4 + createdMenuItems[4].price * 2,
-        customerName: 'Vikram Singh',
-        tableNumber: 7,
-        status: 'Delivered',
-      },
-      {
-        items: [
-          { menuItem: createdMenuItems[3]._id, quantity: 1, price: createdMenuItems[3].price },
-          { menuItem: createdMenuItems[5]._id, quantity: 1, price: createdMenuItems[5].price },
-          { menuItem: createdMenuItems[11]._id, quantity: 2, price: createdMenuItems[11].price },
-        ],
-        totalAmount: createdMenuItems[3].price + createdMenuItems[5].price + createdMenuItems[11].price * 2,
-        customerName: 'Ananya Gupta',
-        tableNumber: 2,
-        status: 'Delivered',
-      },
-      {
-        items: [
-          { menuItem: createdMenuItems[8]._id, quantity: 2, price: createdMenuItems[8].price },
-          { menuItem: createdMenuItems[14]._id, quantity: 2, price: createdMenuItems[14].price },
-        ],
-        totalAmount: createdMenuItems[8].price * 2 + createdMenuItems[14].price * 2,
-        customerName: 'Arjun Nair',
-        tableNumber: 9,
-        status: 'Cancelled',
-      },
-      {
-        items: [
-          { menuItem: createdMenuItems[0]._id, quantity: 3, price: createdMenuItems[0].price },
-          { menuItem: createdMenuItems[7]._id, quantity: 2, price: createdMenuItems[7].price },
-        ],
-        totalAmount: createdMenuItems[0].price * 3 + createdMenuItems[7].price * 2,
-        customerName: 'Deepika Joshi',
-        tableNumber: 4,
-        status: 'Preparing',
-      },
-      {
-        items: [
-          { menuItem: createdMenuItems[4]._id, quantity: 1, price: createdMenuItems[4].price },
-          { menuItem: createdMenuItems[12]._id, quantity: 1, price: createdMenuItems[12].price },
-        ],
-        totalAmount: createdMenuItems[4].price + createdMenuItems[12].price,
-        customerName: 'Karthik Menon',
-        tableNumber: 6,
-        status: 'Delivered',
-      },
-      {
-        items: [
-          { menuItem: createdMenuItems[1]._id, quantity: 2, price: createdMenuItems[1].price },
-          { menuItem: createdMenuItems[5]._id, quantity: 1, price: createdMenuItems[5].price },
-          { menuItem: createdMenuItems[15]._id, quantity: 3, price: createdMenuItems[15].price },
-        ],
-        totalAmount: createdMenuItems[1].price * 2 + createdMenuItems[5].price + createdMenuItems[15].price * 3,
-        customerName: 'Meera Iyer',
-        tableNumber: 10,
-        status: 'Pending',
-      },
-    ];
+    await mongoose.connection.close();
+    console.log('🎉 Seeding completed');
 
-    const createdOrders = await Order.insertMany(sampleOrders);
-    console.log(`Inserted ${createdOrders.length} orders`);
-
-    console.log('Database seeded successfully!');
-    console.log('\n--- Sample Menu Items ---');
-    console.log('Appetizers: Paneer Tikka, Chicken Tikka, Samosa, Veg Spring Rolls');
-    console.log('Main Course: Butter Chicken, Biryani, Dal Makhani, Masala Dosa, Chole Bhature');
-    console.log('Desserts: Gulab Jamun, Rasmalai, Gajar Ka Halwa');
-    console.log('Beverages: Mango Lassi, Masala Chai, Sweet Lassi, Fresh Lime Soda');
     process.exit(0);
-  } catch (error) {
-    console.error('Error seeding database:', error);
+
+  } catch (err) {
+    console.error(err);
     process.exit(1);
   }
 };
