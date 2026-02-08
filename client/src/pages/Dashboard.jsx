@@ -210,7 +210,7 @@ const Dashboard = () => {
             <Trash2 className="w-4 h-4" />
             Clear Orders
           </button>
-          <button onClick={() => handleClearClick("all")} className="flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors">
+          <button onClick={() => handleClearClick("all")}   disabled={true}  className="flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors">
             <Trash2 className="w-4 h-4" />
             Clear All Data
           </button>
