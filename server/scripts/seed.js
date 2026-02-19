@@ -121,7 +121,6 @@ const menuItems = [
 **************************************************/
 const seedDatabase = async () => {
   try {
-    await connectDB();
 
     console.log('🧹 Clearing old data...');
     await MenuItem.deleteMany({});
@@ -156,14 +155,12 @@ const seedDatabase = async () => {
     await Order.insertMany(sampleOrders);
 
     console.log('🎉 Database seeded successfully!');
-    process.exit(0);
+
 
   } catch (error) {
     console.error('❌ Error seeding database:', error);
-    process.exit(1);
-  } finally {
-    await mongoose.connection.close();
-  }
+    throw error
+  } 
 };
 
 module.exports = seedDatabase;
