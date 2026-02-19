@@ -202,11 +202,11 @@ const Dashboard = () => {
             <RefreshCw className="w-4 h-4" />
             Refresh
           </button>
-          <button onClick={() => handleClearClick("menu")} className="flex items-center gap-2 px-4 py-2 bg-orange-100 text-orange-700 rounded-lg hover:bg-orange-200 transition-colors">
+          <button onClick={() => handleClearClick("menu")} disabled={true}  className="flex items-center gap-2 px-4 py-2 bg-orange-100 text-orange-700 rounded-lg hover:bg-orange-200 transition-colors">
             <Trash2 className="w-4 h-4" />
             Clear Menu
           </button>
-          <button onClick={() => handleClearClick("orders")} className="flex items-center gap-2 px-4 py-2 bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200 transition-colors">
+          <button onClick={() => handleClearClick("orders")}  disabled={true} className="flex items-center gap-2 px-4 py-2 bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200 transition-colors">
             <Trash2 className="w-4 h-4" />
             Clear Orders
           </button>
